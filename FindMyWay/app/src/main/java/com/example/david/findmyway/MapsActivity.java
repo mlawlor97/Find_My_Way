@@ -7,6 +7,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -39,7 +41,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng ames = new LatLng(42.0308, -93.6319);
+        LatLng ames = new LatLng(42.02819, -93.64974);
+
+        GroundOverlayOptions engineMap = new GroundOverlayOptions()
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.corvette_engine))
+                .position(ames, 48f, 40f);
+        mMap.addGroundOverlay(engineMap);
+
         mMap.addMarker(new MarkerOptions().position(ames).title("Marker in Ames"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(ames));
     }
