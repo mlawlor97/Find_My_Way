@@ -6,13 +6,13 @@ class Header extends Component {
             <header>
 
                 <div className="logo">
-                logo
+                Find My Way
                 </div>
 
                 <nav>
                     <ul>
-                        <li>
-                            <a href="#">Upload Map</a>
+                        <li className="first">
+                            <a href="#">Upload</a>
                         </li>
                         <li>
                             <a href="#">Help</a>
@@ -20,7 +20,7 @@ class Header extends Component {
                         <li>
                             <a href="#">Sign Up</a>
                         </li>
-                        <li>
+                        <li className="last">
                             <a href="#">Log in</a>
                         </li>
                     </ul>

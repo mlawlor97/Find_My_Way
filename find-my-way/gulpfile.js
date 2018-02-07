@@ -28,8 +28,8 @@ gulp.task('compile_scss', function(){
 
 //detect changes in SCSS
 gulp.task('watch_scss', function() {
-    gulp.watch(SCSS_SRC, [ 'compile_scss' ]);
+    gulp.watch(SCSS_SRC, ['compile_scss']);
 });
 
 //run tasks
-gulp.task('default', [ 'watch_scss' ]);
+gulp.task('default', ['watch_scss']);
