@@ -1,5 +1,6 @@
 package com.example.david.findmyway;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -16,6 +17,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
 
+    double latitude = 0;
+    double longitude = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +28,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Intent intent = getIntent();
+        latitude = intent.getDoubleExtra("latitude", 0);
+        longitude = intent.getDoubleExtra("longitude", 0);
     }
 
 
@@ -40,15 +48,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng ames = new LatLng(42.02819, -93.64974);
+        // Add a marker based on input latitude and longitude
+        LatLng location = new LatLng(latitude, longitude);
 
         GroundOverlayOptions engineMap = new GroundOverlayOptions()
                 .image(BitmapDescriptorFactory.fromResource(R.drawable.corvette_engine))
-                .position(ames, 48f, 40f);
+                .position(location, 48f, 40f);
         mMap.addGroundOverlay(engineMap);
 
-        mMap.addMarker(new MarkerOptions().position(ames).title("Marker in Ames"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(ames));
+        mMap.addMarker(new MarkerOptions().position(location).title("Marker!"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
     }
 }
