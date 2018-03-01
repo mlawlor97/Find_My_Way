@@ -11,9 +11,7 @@ class SimpleMap extends Component {
 
     render() {
         return (
-          <div>
-            TESTING
-            <GoogleMap style={{position: 'absolute', top: 0, bottom: 0, left: 0, right: 0}}
+            <GoogleMap style={{position: 'absolute', top:"90px", bottom: 0, left: 0, right: 0}}
                 bootstrapURLKeys={{ key: ['AIzaSyACXU64fnp6wB0w3YPbxC5se2WKfkJclMM'] }}
                 defaultCenter={this.props.center}
                 defaultZoom={this.props.zoom}
@@ -24,8 +22,7 @@ class SimpleMap extends Component {
                     text={'Kreyser Avrora'}
                 />
             </GoogleMap>
-          </div>
-        );
+        )
     }
 }
 
