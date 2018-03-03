@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GoogleMapReact from 'google-map-react';
+import GoogleMap from 'google-map-react';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
@@ -11,7 +11,8 @@ class SimpleMap extends Component {
 
     render() {
         return (
-            <GoogleMapReact
+            <GoogleMap style={{position: 'absolute', top:"90px", bottom: 0, left: 0, right: 0}}
+                bootstrapURLKeys={{ key: ['AIzaSyACXU64fnp6wB0w3YPbxC5se2WKfkJclMM'] }}
                 defaultCenter={this.props.center}
                 defaultZoom={this.props.zoom}
             >
@@ -20,8 +21,8 @@ class SimpleMap extends Component {
                     lng={30.337844}
                     text={'Kreyser Avrora'}
                 />
-            </GoogleMapReact>
-        );
+            </GoogleMap>
+        )
     }
 }
 
