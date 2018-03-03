@@ -27,7 +27,7 @@ class Header extends Component {
                             <a href="#">Sign Up</a>
                         </li>
                         <li className="last">
-                            <a href="#">Log in</a>
+                            <Link to="/login">Log In</Link>
                         </li>
                     </ul>
                 </nav>
