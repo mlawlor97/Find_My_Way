@@ -1,26 +1,34 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom';
+
 
 //components
-import './Assets/css/default.min.css';
 import Header from './components/headerComponent/header';
 import Footer from './components/footerComponent/footer';
 import Homepage from './components/pages/homePage';
 import SimpleMap from './components/pages/map';
 
+//includes
+import './Assets/css/default.min.css';
+
 class App extends Component {
   render() {
     return (
-      <div className="App">
-      
-        <Header />
+      <Router>
+        <div className="App">
+        
+          <Header />
 
-          <Homepage />
+          <Route exact path='/' component={Homepage} />
+          <Route exact path='/map' component={SimpleMap} />
 
-          <SimpleMap />
+          <Footer />
 
-        <Footer />
-
-      </div>
+        </div>
+      </Router>
     );
   }
 }

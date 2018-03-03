@@ -12,6 +12,8 @@ header {
         position: absolute;
         top: 50%;
         left: 15px;
+        text-decoration: none;
+        color: $white;
         @include translateY(-50%);
     }
 
