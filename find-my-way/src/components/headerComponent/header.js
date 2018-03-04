@@ -18,13 +18,10 @@ class Header extends Component {
                             <Link to="/map">Map</Link>
                         </li>
                         <li>
-                            <a href="#">Upload</a>
+                            <Link to="/upload">Upload</Link>
                         </li>
                         <li>
                             <a href="#">Help</a>
-                        </li>
-                        <li>
-                            <a href="#">Sign Up</a>
                         </li>
                         <li className="last">
                             <Link to="/login">Log In</Link>
