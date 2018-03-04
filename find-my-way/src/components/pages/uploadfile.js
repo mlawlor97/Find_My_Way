@@ -1,28 +1,6 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone'
-// import ImagesUploader from 'react-images-uploader';
-// import 'react-images-uploader/styles.css';
-// import 'react-images-uploader/font.css';
-
-// class UploadFile extends Component {
-//     render() {
-//         return (
-//             <ImagesUploader
-//                 url="http://localhost:9090/notmultiple"
-//                 optimisticPreviews
-//                 multiple={false}
-//                 onLoadEnd={(err) => {
-//                     if (err) {
-//                         console.error(err);
-//                     }
-//                 }}
-//                 label="Upload a picture"
-//             />
-//         );
-//     }
-// }
-
-// export default UploadFile;
+import axios from 'axios';
 
 class UploadFile extends React.Component {
     constructor() {
@@ -33,6 +11,15 @@ class UploadFile extends React.Component {
     onDrop(files) {
         this.setState({
             files
+        });
+        
+        //TODO configure to correct server and files
+        axios({
+            method: 'post',
+            url: 'http://localhost:3000',
+            data: {
+            files
+                }
         });
     }
 
@@ -48,7 +35,12 @@ class UploadFile extends React.Component {
                     <h2>Dropped files</h2>
                     <ul>
                         {
-                            this.state.files.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+                            this.state.files.map(f => <li key={f.name}>{f.name} - {f.size} bytes 
+                            <img src={f.preview}/> 
+                            
+                            
+                            
+                            </li>)
                         }
                     </ul>
                 </aside>
