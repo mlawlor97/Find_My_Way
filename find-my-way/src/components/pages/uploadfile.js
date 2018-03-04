@@ -12,13 +12,13 @@ class UploadFile extends React.Component {
         this.setState({
             files
         });
-        
+
         //TODO configure to correct server and files
         axios({
             method: 'post',
             url: 'http://localhost:3000',
             data: {
-            files
+                file: files[0]
                 }
         });
     }
