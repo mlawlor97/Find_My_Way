@@ -21,7 +21,7 @@ class Header extends Component {
                             <Link to="/upload">Upload</Link>
                         </li>
                         <li>
-                            <a href="#">Help</a>
+                            <Link to="/help">Help</Link>
                         </li>
                         <li className="last">
                             <Link to="/login">Log In</Link>

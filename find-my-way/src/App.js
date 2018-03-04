@@ -15,6 +15,8 @@ import Loginscreen from './components/pages/loginscreen'
 import './Assets/css/default.min.css';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import UploadFile from './components/pages/uploadfile';
+import Help from './components/pages/help';
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
@@ -48,6 +50,8 @@ class App extends Component {
           <Route exact path='/' component={Homepage} />
           <Route exact path='/map' component={SimpleMap} />
           <Route exact path='/login' component={Loginscreen} />
+          <Route exact path='/upload' component={UploadFile} />
+          <Route exact path='/help' component={Help} />
 
           <Footer />
 

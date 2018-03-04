@@ -1,49 +1,24 @@
-import React from 'react'
-import axios, { post } from 'axios';
+import React, { Component } from 'react';
+import ImagesUploader from 'react-images-uploader';
+import 'react-images-uploader/styles.css';
+import 'react-images-uploader/font.css';
 
-class UploadFile extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            file: null
-        }
-        this.onFormSubmit = this.onFormSubmit.bind(this)
-        this.onChange = this.onChange.bind(this)
-        this.fileUpload = this.fileUpload.bind(this)
-    }
-    onFormSubmit(e) {
-        e.preventDefault() // Stop form submit
-        this.fileUpload(this.state.file).then((response) => {
-            console.log(response.data);
-        })
-    }
-    onChange(e) {
-        this.setState({ file: e.target.files[0] })
-    }
-    fileUpload(file) {
-        const url = 'http://example.com/file-upload';
-        const formData = new FormData();
-        formData.append('file', file)
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        }
-        return post(url, formData, config)
-    }
-
+class UploadFile extends Component {
     render() {
         return (
-            <form onSubmit={this.onFormSubmit}>
-                <h1>File Upload</h1>
-                <input type="file" onChange={this.onChange} />
-                <button type="submit">Upload</button>
-            </form>
-        )
+            <ImagesUploader
+                url="http://localhost:9090/notmultiple"
+                optimisticPreviews
+                multiple={false}
+                onLoadEnd={(err) => {
+                    if (err) {
+                        console.error(err);
+                    }
+                }}
+                label="Upload a picture"
+            />
+        );
     }
 }
-
-
 
 export default UploadFile;
