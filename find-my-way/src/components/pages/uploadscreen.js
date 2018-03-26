@@ -20,7 +20,7 @@ import { blue500, red500, greenA200 } from 'material-ui/styles/colors';
 import Dropzone from 'react-dropzone';
 //import superagent from 'react-superagent';
 
-var apiBaseUrl = "http://localhost:4000/api/";
+var apiBaseUrl = "http://10.36.16.143:3000/api";
 /*
 Module:Dropzone
 Dropzone is used for local file selection
