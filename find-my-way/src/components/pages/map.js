@@ -19,30 +19,44 @@ const pablo = {
 
 const indoorMaps = {
   images: [dali, pablo],
+  temp: [dali, pablo]
 }
 
 class SimpleMap extends Component {
   constructor(props){
     super(props);
 
+    this.onZoomStart = this.onZoomStart.bind(this);
+    this.onZoomEnd = this.onZoomEnd.bind(this);
+
     this.state = {
-      indoorMaps: indoorMaps
+      indoorMaps: indoorMaps,
     };
   }
 
   componentDidMount(){
+    var images = this.state.indoorMaps.images;
     $(document).ready(function() {
-      $('.dali').css({'transform': 'rotate(10deg)'});
+      for(var i = 0; i < images.length; i++){
+        var existingCss =  $('.' + images[i].className).css('transform');
+        $('.' + images[i].className).css('transform', existingCss + ' rotate('+ images[i].rotation +'deg)');
+      }
     });
   }
 
-  onZoomStart() {
+
+  onZoomStart(value) {
     console.log("START");
   }
 
   onZoomEnd(){
-    console.log("END");
-
+    var images = this.state.indoorMaps.images;
+    $(document).ready(function() {
+      for(var i = 0; i < images.length; i++){
+        var existingCss =  $('.' + images[i].className).css('transform');
+        $('.' + images[i].className).css('transform', existingCss + ' rotate('+ images[i].rotation +'deg)');
+      }
+    });
   }
 
     render() {
@@ -50,8 +64,9 @@ class SimpleMap extends Component {
           <Map center={[0,0]}
                style={{position: 'absolute', top:'90px', bottom: '90px', left: 0, right: 0}}
                zoom={4.5}
-               onZoomStart={this.onZoomStart}
-               onZoomEnd={this.onZoomEnd}>
+               onZoomStart={this.onZoomStart(3)}
+               onZoomEnd={this.onZoomEnd}
+               zoomAnimation={false}>
 
             <TileLayer
               attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
