@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {ImageOverlay, Map, TileLayer, Marker, Popup } from 'react-leaflet'
-import RotatedMarker from 'react-leaflet-rotatedmarker'
+import {ImageOverlay, Map, TileLayer} from 'react-leaflet'
 import $ from 'jquery'
 
 const dali = {
@@ -18,16 +17,16 @@ const pablo = {
 }
 
 const indoorMaps = {
-  images: [dali, pablo],
-  temp: [dali, pablo]
+  images: [dali, pablo]
 }
 
 class SimpleMap extends Component {
   constructor(props){
     super(props);
 
-    this.onZoomStart = this.onZoomStart.bind(this);
     this.onZoomEnd = this.onZoomEnd.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.rotateImages = this.rotateImages.bind(this);
 
     this.state = {
       indoorMaps: indoorMaps,
@@ -35,21 +34,24 @@ class SimpleMap extends Component {
   }
 
   componentDidMount(){
-    var images = this.state.indoorMaps.images;
-    $(document).ready(function() {
-      for(var i = 0; i < images.length; i++){
-        var existingCss =  $('.' + images[i].className).css('transform');
-        $('.' + images[i].className).css('transform', existingCss + ' rotate('+ images[i].rotation +'deg)');
-      }
-    });
-  }
-
-
-  onZoomStart(value) {
-    console.log("START");
+    const leafletMap = this.leafletMap;
+    console.log(leafletMap);
+    this.rotateImages();
   }
 
   onZoomEnd(){
+    this.rotateImages();
+  }
+
+  onMouseDown(e){
+    var daliMove = this.state.indoorMaps;
+    var newBounds = [e.latlng.lat, e.latlng.lng];
+    daliMove.images[0].bounds[0] = newBounds;
+    this.setState({indoorMaps: daliMove});
+    this.rotateImages();
+  }
+
+  rotateImages(){
     var images = this.state.indoorMaps.images;
     $(document).ready(function() {
       for(var i = 0; i < images.length; i++){
@@ -60,13 +62,20 @@ class SimpleMap extends Component {
   }
 
     render() {
+
+      function generateKey(){
+        return Math.floor(Math.random() * 100000);
+      }
+
         return (
-          <Map center={[0,0]}
+          <Map ref={m => { this.leafletMap = m; }}
+               center={[0,0]}
                style={{position: 'absolute', top:'90px', bottom: '90px', left: 0, right: 0}}
                zoom={4.5}
-               onZoomStart={this.onZoomStart(3)}
+               worldCopyJump={true}
+               zoomAnimation={false}
                onZoomEnd={this.onZoomEnd}
-               zoomAnimation={false}>
+               onMouseDown={this.onMouseDown}>
 
             <TileLayer
               attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
@@ -74,7 +83,8 @@ class SimpleMap extends Component {
             />
 
             {this.state.indoorMaps.images.map(function(floorplan, index){
-              return <ImageOverlay className={floorplan.className}
+              return <ImageOverlay key={generateKey()}
+                                   className={floorplan.className}
                                    bounds={floorplan.bounds}
                                    url={floorplan.url} />
             })}
