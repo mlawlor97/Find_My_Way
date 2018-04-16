@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import {ImageOverlay, Map, TileLayer} from 'react-leaflet'
+import Control from 'react-leaflet-control';
+import Slider from 'react-rangeslider'
+import 'react-rangeslider/lib/index.css'
 import $ from 'jquery'
 
 const dali = {
   bounds: [[32, -130], [13, -100]],
   url: "http://www.moma.org/media/W1siZiIsIjM4NjQ3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDIwMDB4MjAwMFx1MDAzZSJdXQ.jpg?sha=f6522ef85554762b",
   className: "dali",
-  rotation: 20,
+  rotation: 0,
 }
 
 const pablo = {
@@ -27,9 +30,15 @@ class SimpleMap extends Component {
     this.onZoomEnd = this.onZoomEnd.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
     this.rotateImages = this.rotateImages.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.onTLCornerChange = this.onTLCornerChange.bind(this);
+    this.onBRCornerChange = this.onBRCornerChange.bind(this);
 
     this.state = {
       indoorMaps: indoorMaps,
+      rotateSlider: 0,
+      TLCorner: true,
+      BRCorner: false,
     };
   }
 
@@ -44,9 +53,13 @@ class SimpleMap extends Component {
   }
 
   onMouseDown(e){
+    var cornerIndex = 0;
+    if(this.state.BRCorner){
+      cornerIndex = 1;
+    }
     var daliMove = this.state.indoorMaps;
     var newBounds = [e.latlng.lat, e.latlng.lng];
-    daliMove.images[0].bounds[0] = newBounds;
+    daliMove.images[0].bounds[cornerIndex] = newBounds;
     this.setState({indoorMaps: daliMove});
     this.rotateImages();
   }
@@ -61,7 +74,27 @@ class SimpleMap extends Component {
     });
   }
 
+  onTLCornerChange(){
+    this.setState({TLCorner: true, BRCorner: false});
+  }
+
+  onBRCornerChange(){
+    this.setState({TLCorner: false, BRCorner: true});
+  }
+
+  handleChangeStart = () => {
+    console.log('Change event started')
+  };
+
+  handleChange = value => {
+    console.log(value);
+    this.setState({
+      rotateSlider: value
+    })
+  };
+
     render() {
+       const { rotateSlider } = this.state;
 
       function generateKey(){
         return Math.floor(Math.random() * 100000);
@@ -81,6 +114,24 @@ class SimpleMap extends Component {
               attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
+
+            <Control position="topright">
+                <div
+                    style={{
+                        backgroundColor: 'white',
+                        padding: '25px',
+                    }}
+                >
+                <form action="">
+                  <input type="radio" name="position" value="topleft" onChange={this.onTLCornerChange} checked={this.state.TLCorner} />Top-Left<br />
+                  <input type="radio" name="position" value="bottomright" onChange={this.onBRCornerChange} checked={this.state.BRCorner}/>Bottom-Right<br />
+                </form>
+                    <Slider />
+                  <div>{rotateSlider}</div>
+
+
+                </div>
+            </Control>
 
             {this.state.indoorMaps.images.map(function(floorplan, index){
               return <ImageOverlay key={generateKey()}
