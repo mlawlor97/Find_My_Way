@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import axios from 'axios';
 import UploadScreen from './uploadscreen';
+import { green100 } from 'material-ui/styles/colors';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { ImagePalette } from 'material-ui';
 
 class Login extends Component {
     constructor(props) {
@@ -130,9 +132,6 @@ class Login extends Component {
             <div>
                 <MuiThemeProvider>
                     <div>
-                        <AppBar
-                            title="Login"
-                        />
                         <TextField
                             hintText="Enter your Username"
                             floatingLabelText="Username"
@@ -156,4 +155,5 @@ class Login extends Component {
 const style = {
     margin: 15,
 };
+
 export default Login;
