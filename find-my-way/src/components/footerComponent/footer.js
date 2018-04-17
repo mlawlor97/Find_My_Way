@@ -10,19 +10,22 @@ class Footer extends Component {
 
                 <ul>
                     <li className="first">
-                        <a href="#">David Bis</a>
+                        <a href="#Dave">David Bis</a>
                     </li>
                     <li>
-                        <a href="#">Mitchell Kerr</a>
+                        <a href="#Mitch">Mitchell Kerr</a>
                     </li>
                     <li>
-                        <a href="#">Jacob Stair</a>
+                        <a href="#Jake">Jacob Stair</a>
                     </li>
                     <li>
-                        <a href="#">Emmett Kozlowski</a>
+                        <a href="#Emmett">Emmett Kozlowski</a>
+                    </li>
+                    <li>
+                        <a href="#Matt">Matt Lawlor</a>
                     </li>
                     <li className="last">
-                        <a href="#">Matt Lawlor</a>
+                        <a href="#Junjie">Junjie Wen</a>
                     </li>
                 </ul>
             </footer>

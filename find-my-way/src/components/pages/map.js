@@ -16,7 +16,7 @@ const pablo = {
   bounds: [[0, 0], [20, 20]],
   url: "https://static01.nyt.com/images/2018/03/02/arts/design/02picasso-print/01picasso1-blog427.jpg",
   className: "pablo",
-  rotation: -50,
+  rotation: 0,
 }
 
 const indoorMaps = {
@@ -29,22 +29,23 @@ class SimpleMap extends Component {
 
     this.onZoomEnd = this.onZoomEnd.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
+    this.rotateImage = this.rotateImage.bind(this);
     this.rotateImages = this.rotateImages.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleRotateChange = this.handleRotateChange.bind(this);
     this.onTLCornerChange = this.onTLCornerChange.bind(this);
     this.onBRCornerChange = this.onBRCornerChange.bind(this);
+    this.onEditModeChange = this.onEditModeChange.bind(this);
 
     this.state = {
       indoorMaps: indoorMaps,
-      rotateSlider: 0,
+      rotate: 0,
       TLCorner: true,
       BRCorner: false,
+      editMode: false,
     };
   }
 
   componentDidMount(){
-    const leafletMap = this.leafletMap;
-    console.log(leafletMap);
     this.rotateImages();
   }
 
@@ -53,6 +54,9 @@ class SimpleMap extends Component {
   }
 
   onMouseDown(e){
+    if(!this.state.editMode){
+      return;
+    }
     var cornerIndex = 0;
     if(this.state.BRCorner){
       cornerIndex = 1;
@@ -62,6 +66,15 @@ class SimpleMap extends Component {
     daliMove.images[0].bounds[cornerIndex] = newBounds;
     this.setState({indoorMaps: daliMove});
     this.rotateImages();
+  }
+
+  rotateImage(img){
+    var images = this.state.indoorMaps.images;
+    var rotate = this.state.rotate;
+    $(document).ready(function() {
+        var existingCss =  $('.' + images[img].className).css('transform');
+        $('.' + images[img].className).css('transform', existingCss + ' rotate('+ rotate +'deg)');
+    });
   }
 
   rotateImages(){
@@ -82,16 +95,23 @@ class SimpleMap extends Component {
     this.setState({TLCorner: false, BRCorner: true});
   }
 
-  handleChangeStart = () => {
-    console.log('Change event started')
+  handleRotateChange(e){
+    var rotation = e.target.value;
+    this.setState({
+      rotate: rotation
+    })
+    this.rotateImage(1);
   };
 
-  handleChange = value => {
-    console.log(value);
-    this.setState({
-      rotateSlider: value
-    })
-  };
+  onEditModeChange(e){
+    var checkState = e.target.value;
+    console.log("PRE: ", checkState);
+    // // checkState = !checkState;
+    // console.log("POST: ", checkState);
+    // this.setState({
+    //   editMode: checkState
+    // });
+  }
 
     render() {
        const { rotateSlider } = this.state;
@@ -122,12 +142,10 @@ class SimpleMap extends Component {
                         padding: '25px',
                     }}
                 >
-                <form action="">
-                  <input type="radio" name="position" value="topleft" onChange={this.onTLCornerChange} checked={this.state.TLCorner} />Top-Left<br />
-                  <input type="radio" name="position" value="bottomright" onChange={this.onBRCornerChange} checked={this.state.BRCorner}/>Bottom-Right<br />
-                </form>
-                    <Slider />
-                  <div>{rotateSlider}</div>
+                <input type="checkbox" name="editmode" onChange={this.onEditModeChange} checked={this.state.editMode} /> Edit Mode <br />
+                <input type="radio" name="position" value="topleft" onChange={this.onTLCornerChange} checked={this.state.TLCorner} />Top-Left<br />
+                <input type="radio" name="position" value="bottomright" onChange={this.onBRCornerChange} checked={this.state.BRCorner}/>Bottom-Right<br />
+                <input type="number" onChange={this.handleRotateChange} value={this.state.rotate}/>
 
 
                 </div>
