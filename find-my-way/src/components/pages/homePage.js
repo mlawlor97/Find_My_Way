@@ -4,7 +4,6 @@ class Homepage extends Component {
     render() {
         return (
             <div>
-    
               <img src={require("../../Assets/DurhamCenter.png")} />
             </div>
         );

@@ -27,6 +27,8 @@ class SimpleMap extends Component {
   constructor(props){
     super(props);
 
+    // Do loading of map images here!
+
     this.onZoomEnd = this.onZoomEnd.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
     this.rotateImage = this.rotateImage.bind(this);
@@ -35,6 +37,7 @@ class SimpleMap extends Component {
     this.onTLCornerChange = this.onTLCornerChange.bind(this);
     this.onBRCornerChange = this.onBRCornerChange.bind(this);
     this.onEditModeChange = this.onEditModeChange.bind(this);
+    this.clickMe = this.clickMe.bind(this);
 
     this.state = {
       indoorMaps: indoorMaps,
@@ -43,6 +46,10 @@ class SimpleMap extends Component {
       BRCorner: false,
       editMode: false,
     };
+  }
+
+  clickMe(){
+
   }
 
   componentDidMount(){
@@ -148,6 +155,7 @@ class SimpleMap extends Component {
                 <input type="radio" name="position" value="topleft" onChange={this.onTLCornerChange} checked={this.state.TLCorner} />Top-Left<br />
                 <input type="radio" name="position" value="bottomright" onChange={this.onBRCornerChange} checked={this.state.BRCorner}/>Bottom-Right<br />
                 <input type="number" onChange={this.handleRotateChange} value={this.state.rotate}/>
+                <button onClick={this.clickMe}>CLICK ME</button>
 
 
                 </div>

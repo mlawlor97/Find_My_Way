@@ -6,13 +6,13 @@ class UploadFile extends React.Component {
     constructor() {
         super()
         this.state = { files: [] }
+        this.clickMe = this.clickMe.bind(this);
     }
 
     onDrop(files) {
         this.setState({
             files
         });
-
         //TODO configure to correct server and files
         axios({
             method: 'post',
@@ -21,6 +21,19 @@ class UploadFile extends React.Component {
                 file: files[0]
                 }
         });
+    }
+
+    clickMe(){
+      console.log(this.state.files[0]);
+      var reader = new FileReader();
+
+      reader.addEventListener("load", function(){
+        console.log(reader.result);
+        localStorage.setItem("newImage", reader.result);
+        console.log(localStorage.getItem("newImage"));
+      }, false);
+
+      reader.readAsDataURL(this.state.files[0]);
     }
 
     render() {
@@ -35,15 +48,16 @@ class UploadFile extends React.Component {
                     <h2>Dropped files</h2>
                     <ul>
                         {
-                            this.state.files.map(f => <li key={f.name}>{f.name} - {f.size} bytes 
-                            <img src={f.preview}/> 
-                            
-                            
-                            
+                            this.state.files.map(f => <li key={f.name}>{f.name} - {f.size} bytes
+                            <img src={f.preview}/>
+
+
+
                             </li>)
                         }
                     </ul>
                 </aside>
+                <button onClick={this.clickMe}>CLICK ME</button>
             </section>
         );
     }
