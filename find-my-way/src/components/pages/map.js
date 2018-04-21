@@ -108,9 +108,9 @@ class SimpleMap extends Component {
     console.log("PRE: ", checkState);
     // // checkState = !checkState;
     // console.log("POST: ", checkState);
-    // this.setState({
-    //   editMode: checkState
-    // });
+    this.setState({
+      editMode: !checkState
+    });
   }
 
     render() {
@@ -142,6 +142,8 @@ class SimpleMap extends Component {
                         padding: '25px',
                     }}
                 >
+
+                <div>EDIT OPTIONS</div><br/>
                 <input type="checkbox" name="editmode" onChange={this.onEditModeChange} checked={this.state.editMode} /> Edit Mode <br />
                 <input type="radio" name="position" value="topleft" onChange={this.onTLCornerChange} checked={this.state.TLCorner} />Top-Left<br />
                 <input type="radio" name="position" value="bottomright" onChange={this.onBRCornerChange} checked={this.state.BRCorner}/>Bottom-Right<br />
