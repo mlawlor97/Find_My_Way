@@ -18,13 +18,13 @@ class Login extends Component {
     }
 
     handleClick(event) {
-        var apiBaseUrl = "http://10.36.16.143:3000/api";
+        var apiBaseUrl = "https://findmyway.ece.iastate.edu"; //http://10.36.16.143:3000/api
         var self = this;
         var payload = {
             "email": this.state.username,
             "password": this.state.password
         }
-        axios.post(apiBaseUrl + '/login', payload)
+        axios.post(apiBaseUrl, payload)
             .then(function (response) {
                 console.log("Here " + response);
                 if (response.data.code == 200) {
@@ -50,82 +50,6 @@ class Login extends Component {
                 console.log(error);
             });
     }
-
-//     tryLogin = async (data, reg) => {
-//         if (data.username === '' || data.password === '') {
-//             alert('Invalid Username or Password');
-//             return 24;
-//         }
-
-//         let ip = 'proj-319-B5.cs.iastate.edu';
-//         // let ip = '10.36.19.28';
-
-//         let response;
-//         let url = 'http://' + ip + ':3000/users';
-//         if (reg) { url += '/new'; }
-
-//         response = await fetch(url, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Accept': 'application/json'
-//             },
-//             body: JSON.stringify(data)
-//         });
-
-//         if (response.status === 500) {
-//             if (reg) {
-//                 alert('Username is taken');
-//             } else {
-//                 alert(data.username + ' is not a registered user');
-//             }
-//             return -1;
-//         }
-
-//         if (!response.ok) {
-//             console.error(response.status);
-//             throw Error(response.status);
-//         }
-
-//         if (response.status === 200) {
-//             const message = await response.json();
-//             alert(message['message']);
-//             if (message['message'] === 'you are logged in') {
-//                 // User.name = data.username;
-//                 // this.props.history.push('/');
-//             }
-//         }
-//     };
-
-//     handleSubmit(event) {
-//         if (!event.target.checkValidity()) {
-//             console.log('invalid form');
-//             return;
-//         }
-//         event.preventDefault();
-
-//         let data = {
-//             username: this.state.username,
-//             password: this.state.password
-//         };
-
-//         this.tryLogin(data, false);
-//     }
-
-//     handleRegister(event) {
-//         if (!event.target.checkValidity()) {
-//             console.log('invalid form');
-//             return;
-//         }
-//         event.preventDefault();
-
-//         let data = {
-//             username: this.state.username,
-//             password: this.state.password
-//         };
-
-//         this.tryLogin(data, true);
-//     }
 
     render() {
         return (
