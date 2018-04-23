@@ -18,13 +18,21 @@ class Login extends Component {
     }
 
     handleClick(event) {
-        var apiBaseUrl = "https://findmyway.ece.iastate.edu";
+        var apiBaseUrl = "http://findmyway.ece.iastate.edu/Find_My_Way/api/login";
         var self = this;
         var payload = {
             "email": this.state.username,
             "password": this.state.password
         }
-        axios.post(apiBaseUrl, payload)
+
+        let axiosConfig = {
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+                "Access-Control-Allow-Origin": "*",
+            }
+        };
+        
+        axios.post(apiBaseUrl, payload, axiosConfig)
             .then(function (response) {
                 console.log("Here " + response);
                 if (response.data.code == 200) {

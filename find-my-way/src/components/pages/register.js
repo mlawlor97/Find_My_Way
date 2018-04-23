@@ -18,7 +18,7 @@ class Register extends Component {
     }
 
     handleClick(event) {
-        var apiBaseUrl = "http://findmyway.ece.iastate.edu/register.php"; 
+        var apiBaseUrl = "http://findmyway.ece.iastate.edu/Find_My_Way/api/register"; 
         console.log("values", this.state.first_name, this.state.last_name, this.state.email, this.state.password);
         //To be done:check for empty values before hitting submit
         var self = this;
@@ -29,7 +29,14 @@ class Register extends Component {
             "password": this.state.password
         }
 
-        axios.post(apiBaseUrl, payload, )
+        let axiosConfig = {
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+                "Access-Control-Allow-Origin": "*",
+            }
+        };
+
+        axios.post(apiBaseUrl, payload, axiosConfig)
             .then(function (response) {
                 console.log(response);
                 if (response.data.code == 200) {

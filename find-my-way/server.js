@@ -30,5 +30,5 @@ router.post('/login', login.login);
 //route to handle file printing and listing
 router.post('/fileupload', multerupload.any(), upload.fileupload);
 app.use('/api', router);
-app.listen(4000);
+app.listen(80);
 module.exports = app;
