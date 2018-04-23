@@ -18,7 +18,7 @@ class Login extends Component {
     }
 
     handleClick(event) {
-        var apiBaseUrl = "https://findmyway.ece.iastate.edu"; //http://10.36.16.143:3000/api
+        var apiBaseUrl = "https://65.110.254.36";
         var self = this;
         var payload = {
             "email": this.state.username,

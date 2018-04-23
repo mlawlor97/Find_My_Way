@@ -17,7 +17,7 @@ class Register extends Component {
     }
 
     handleClick(event) {
-        var apiBaseUrl = "https://findmyway.ece.iastate.edu";
+        var apiBaseUrl = "https://localhost:3000/#"; //https://findmyway.ece.iastate.edu
         console.log("values", this.state.first_name, this.state.last_name, this.state.email, this.state.password);
         //To be done:check for empty values before hitting submit
         var self = this;
