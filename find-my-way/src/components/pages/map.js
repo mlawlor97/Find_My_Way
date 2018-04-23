@@ -111,12 +111,14 @@ class SimpleMap extends Component {
   };
 
   onEditModeChange(e){
-    var checkState = e.target.value;
-    console.log("PRE: ", checkState);
+    // var checkState = e.target.value;
+
+    console.log("PRE: ", this.state.editMode);
+    let checkState = (this.state.editMode === "on" || this.state.editMode === true) ? false : true;
     // // checkState = !checkState;
-    // console.log("POST: ", checkState);
+    console.log("POST: ", checkState);
     this.setState({
-      editMode: !checkState
+      editMode: checkState
     });
   }
 
