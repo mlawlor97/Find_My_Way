@@ -131,7 +131,22 @@ class SimpleMap extends Component {
   }
 
     render() {
-       const { rotateSlider } = this.state;
+      const isEditing = this.state.editMode;
+
+      const editOptions = isEditing ? (
+        <div>
+          <input type="radio" name="position" value="topleft" onChange={this.onTLCornerChange} checked={this.state.TLCorner} />Top-Left<br />
+          <input type="radio" name="position" value="bottomright" onChange={this.onBRCornerChange} checked={this.state.BRCorner}/>Bottom-Right<br />
+          <input type="number" onChange={this.handleRotateChange} value={this.state.rotate}/> <br />
+          <select onChange={this.onActiveFloorplanChange}>
+          {this.state.indoorMaps.images.map(function(floorplan, index){
+            return <option value={index}>{floorplan.className}</option>
+          })}
+          </select> <br />
+        </div>
+      ) : (
+        <div />
+       )
 
       function generateKey(){
         return Math.floor(Math.random() * 100000);
@@ -162,14 +177,7 @@ class SimpleMap extends Component {
 
                 <div>EDIT OPTIONS</div><br/>
                 <input type="checkbox" name="editmode" onChange={this.onEditModeChange} checked={this.state.editMode} /> Edit Mode <br />
-                <input type="radio" name="position" value="topleft" onChange={this.onTLCornerChange} checked={this.state.TLCorner} />Top-Left<br />
-                <input type="radio" name="position" value="bottomright" onChange={this.onBRCornerChange} checked={this.state.BRCorner}/>Bottom-Right<br />
-                <input type="number" onChange={this.handleRotateChange} value={this.state.rotate}/> <br />
-                <select onChange={this.onActiveFloorplanChange}>
-                {this.state.indoorMaps.images.map(function(floorplan, index){
-                  return <option value={index}>{floorplan.className}</option>
-                })}
-                </select> <br />
+                {editOptions}
                 <button onClick={this.clickMe}>CLICK ME</button>
 
 
