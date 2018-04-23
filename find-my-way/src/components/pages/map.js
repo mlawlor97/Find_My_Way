@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {ImageOverlay, Map, TileLayer} from 'react-leaflet'
 import Control from 'react-leaflet-control';
-import Slider from 'react-rangeslider'
-import 'react-rangeslider/lib/index.css'
+import Dropdown from 'react-dropdown'
+import 'react-dropdown/style.css'
 import $ from 'jquery'
 
 const dali = {
@@ -37,6 +37,7 @@ class SimpleMap extends Component {
     this.onTLCornerChange = this.onTLCornerChange.bind(this);
     this.onBRCornerChange = this.onBRCornerChange.bind(this);
     this.onEditModeChange = this.onEditModeChange.bind(this);
+    this.onActiveFloorplanChange = this.onActiveFloorplanChange.bind(this);
     this.clickMe = this.clickMe.bind(this);
 
     this.state = {
@@ -45,11 +46,14 @@ class SimpleMap extends Component {
       TLCorner: true,
       BRCorner: false,
       editMode: false,
+      activeImage: 0
     };
   }
 
   clickMe(){
-
+    for(var i = 0; i < this.state.indoorMaps.images.length; i++){
+      console.log(this.state.indoorMaps.images[i].className);
+    }
   }
 
   componentDidMount(){
@@ -68,10 +72,10 @@ class SimpleMap extends Component {
     if(this.state.BRCorner){
       cornerIndex = 1;
     }
-    var daliMove = this.state.indoorMaps;
+    var imgMove = this.state.indoorMaps;
     var newBounds = [e.latlng.lat, e.latlng.lng];
-    daliMove.images[0].bounds[cornerIndex] = newBounds;
-    this.setState({indoorMaps: daliMove});
+    imgMove.images[this.state.activeImage].bounds[cornerIndex] = newBounds;
+    this.setState({indoorMaps: imgMove});
     this.rotateImages();
   }
 
@@ -103,23 +107,27 @@ class SimpleMap extends Component {
   }
 
   handleRotateChange(e){
+    if(!this.state.editMode){
+      return;
+    }
     var rotation = e.target.value;
     this.setState({
       rotate: rotation
-    })
-    this.rotateImage(1);
+    });
+    this.rotateImage(this.state.activeImage);
   };
 
   onEditModeChange(e){
-    // var checkState = e.target.value;
-
-    console.log("PRE: ", this.state.editMode);
     let checkState = (this.state.editMode === "on" || this.state.editMode === true) ? false : true;
-    // // checkState = !checkState;
-    console.log("POST: ", checkState);
     this.setState({
       editMode: checkState
     });
+  }
+
+  onActiveFloorplanChange(e){
+    this.setState({
+      activeImage: e.target.value
+    })
   }
 
     render() {
@@ -156,7 +164,12 @@ class SimpleMap extends Component {
                 <input type="checkbox" name="editmode" onChange={this.onEditModeChange} checked={this.state.editMode} /> Edit Mode <br />
                 <input type="radio" name="position" value="topleft" onChange={this.onTLCornerChange} checked={this.state.TLCorner} />Top-Left<br />
                 <input type="radio" name="position" value="bottomright" onChange={this.onBRCornerChange} checked={this.state.BRCorner}/>Bottom-Right<br />
-                <input type="number" onChange={this.handleRotateChange} value={this.state.rotate}/>
+                <input type="number" onChange={this.handleRotateChange} value={this.state.rotate}/> <br />
+                <select onChange={this.onActiveFloorplanChange}>
+                {this.state.indoorMaps.images.map(function(floorplan, index){
+                  return <option value={index}>{floorplan.className}</option>
+                })}
+                </select> <br />
                 <button onClick={this.clickMe}>CLICK ME</button>
 
 
