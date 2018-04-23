@@ -18,7 +18,7 @@ class Register extends Component {
     }
 
     handleClick(event) {
-        var apiBaseUrl = "https://findmyway.ece.iastate.edu"; 
+        var apiBaseUrl = "http://findmyway.ece.iastate.edu/register.php"; 
         console.log("values", this.state.first_name, this.state.last_name, this.state.email, this.state.password);
         //To be done:check for empty values before hitting submit
         var self = this;
@@ -29,7 +29,7 @@ class Register extends Component {
             "password": this.state.password
         }
 
-        axios.post(apiBaseUrl, payload)
+        axios.post(apiBaseUrl, payload, )
             .then(function (response) {
                 console.log(response);
                 if (response.data.code == 200) {

@@ -31,3 +31,4 @@ router.post('/login', login.login);
 router.post('/fileupload', multerupload.any(), upload.fileupload);
 app.use('/api', router);
 app.listen(4000);
+module.exports = app;
