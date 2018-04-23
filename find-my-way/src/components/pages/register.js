@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import axios from 'axios';
 import Login from './login';
+import https from 'https';
 
 class Register extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ class Register extends Component {
     }
 
     handleClick(event) {
-        var apiBaseUrl = "https://localhost:3000/#"; //https://findmyway.ece.iastate.edu
+        var apiBaseUrl = "https://findmyway.ece.iastate.edu"; 
         console.log("values", this.state.first_name, this.state.last_name, this.state.email, this.state.password);
         //To be done:check for empty values before hitting submit
         var self = this;
@@ -27,6 +28,7 @@ class Register extends Component {
             "email": this.state.email,
             "password": this.state.password
         }
+
         axios.post(apiBaseUrl, payload)
             .then(function (response) {
                 console.log(response);
