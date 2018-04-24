@@ -18,7 +18,7 @@ class Register extends Component {
     }
 
     handleClick(event) {
-        var apiBaseUrl = "http://findmyway.ece.iastate.edu/Find_My_Way/api/register"; 
+        var apiBaseUrl = "http://findmyway.ece.iastate.edu/api/register"; 
         console.log("values", this.state.first_name, this.state.last_name, this.state.email, this.state.password);
         //To be done:check for empty values before hitting submit
         var self = this;
