@@ -1,34 +1,93 @@
-var express = require("express");
-var login = require('./routes/loginroutes');
-var upload = require('./routes/fileroutes');
-var bodyParser = require('body-parser');
-/*
-Module:multer
-multer is middleware used to handle multipart form data
-*/
-var multer = require('multer');
-var multerupload = multer({ dest: 'fileprint/' })
-var app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+const express = require('express');
 
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
+const app = express();
+const port = process.env.PORT || 5050;
+
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'FeyenDMaiWey!1969',
+    database: 'findmyway'
 });
-var router = express.Router();
-
-// test route
-router.get('/', function (req, res) {
-    res.json({ message: 'welcome to our upload module apis' });
+connection.connect(function (err) {
+    if (!err) {
+        console.log("Database is connected ... nn");
+    } else {
+        console.log("Error connecting database ... nn");
+    }
 });
 
-//route to handle user registration
-router.post('/register', login.register);
-router.post('/login', login.login);
-//route to handle file printing and listing
-router.post('/fileupload', multerupload.any(), upload.fileupload);
-app.use('/api', router);
-app.listen(80);
-module.exports = app;
+
+app.post('/api/maps', (req, res) => {
+    console.log(req.route);
+    var car = { type: 'a good one', model: 'T', color: 'red' };
+    res.send(car);
+});
+
+app.post('/api/register', (req, res) => {
+    var today = new Date();
+    var users = {
+        "first_name": req.body.first_name,
+        "last_name": req.body.last_name,
+        "email": req.body.email,
+        "password": req.body.password,
+        "created": today,
+        "modified": today
+    }
+    connection.query('INSERT INTO users SET ?', users, function (error, results, fields) {
+        if (error) {
+            console.log("error ocurred", error);
+            res.send({
+                "code": 400,
+                "failed": "error ocurred"
+            })
+        } else {
+            console.log('The solution is: ', results);
+            res.send({
+                "code": 200,
+                "success": "user registered sucessfully"
+            });
+        }
+    });
+});
+
+app.post('/api/login', (req, res) => {
+    var email = req.body.email;
+    var password = req.body.password;
+    connection.query('SELECT * FROM users WHERE email = ?', [email], function (error, results, fields) {
+        if (error) {
+            // console.log("error ocurred",error);
+            res.send({
+                "code": 400,
+                "failed": "error ocurred"
+            })
+        } else {
+            // console.log('The solution is: ', results);
+            if (results.length > 0) {
+                if ([0].password == password) {
+                    res.send({
+                        "code": 200,
+                        "success": "login sucessfull"
+                    });
+                }
+                else {
+                    res.send({
+                        "code": 204,
+                        "success": "Email and password does not match"
+                    });
+                }
+            }
+            else {
+                res.send({
+                    "code": 204,
+                    "success": "Email does not exits"
+                });
+            }
+        }
+    });
+
+});
+
+
+app.listen(port, () => console.log(`Listening on port ${port}`));
