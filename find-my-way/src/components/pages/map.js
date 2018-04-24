@@ -81,18 +81,17 @@ class SimpleMap extends Component {
   }
 
   rotateImage(img){
-    var images = this.state.indoorMaps.images;
-    var rotate = this.state.rotate;
-    $(document).ready(function() {
-        var existingCss =  $('.' + images[img].className).css('transform');
-        $('.' + images[img].className).css('transform', existingCss + ' rotate('+ rotate +'deg)');
-    });
+    var maps = this.state.indoorMaps;
+    maps.images[img].rotation = this.state.rotate
+    this.setState({indoorMaps: maps});
+    this.rotateImages();
   }
 
   rotateImages(){
     var images = this.state.indoorMaps.images;
     $(document).ready(function() {
       for(var i = 0; i < images.length; i++){
+        console.log(images[i].rotation);
         var existingCss =  $('.' + images[i].className).css('transform');
         $('.' + images[i].className).css('transform', existingCss + ' rotate('+ images[i].rotation +'deg)');
       }
@@ -101,10 +100,12 @@ class SimpleMap extends Component {
 
   onTLCornerChange(){
     this.setState({TLCorner: true, BRCorner: false});
+    this.rotateImages();
   }
 
   onBRCornerChange(){
     this.setState({TLCorner: false, BRCorner: true});
+    this.rotateImages();
   }
 
   handleRotateChange(e){
@@ -123,12 +124,14 @@ class SimpleMap extends Component {
     this.setState({
       editMode: checkState
     });
+    this.rotateImages();
   }
 
   onActiveFloorplanChange(e){
     this.setState({
       activeImage: e.target.value
-    })
+    });
+   this.rotateImages();
   }
 
     render() {

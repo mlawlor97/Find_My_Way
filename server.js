@@ -4,6 +4,7 @@ const app = express();
 const port = process.env.PORT || 5050;
 
 app.get('/api/hello', (req, res) => {
+  console.log(req);
   res.send({ express: 'Hello From Express' });
 });
 
