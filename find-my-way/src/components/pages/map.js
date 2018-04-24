@@ -52,7 +52,9 @@ class SimpleMap extends Component {
   }
 
   clickMe(){
-    axios.get("/api/hello").then(function(response){
+    axios.post("/api/maps", {
+      userId: '123'
+    }).then(function(response){
       console.log(response);
     });
   }
@@ -91,7 +93,6 @@ class SimpleMap extends Component {
     var images = this.state.indoorMaps.images;
     $(document).ready(function() {
       for(var i = 0; i < images.length; i++){
-        console.log(images[i].rotation);
         var existingCss =  $('.' + images[i].className).css('transform');
         $('.' + images[i].className).css('transform', existingCss + ' rotate('+ images[i].rotation +'deg)');
       }

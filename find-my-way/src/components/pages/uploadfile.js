@@ -14,13 +14,6 @@ class UploadFile extends React.Component {
             files
         });
         //TODO configure to correct server and files
-        axios({
-            method: 'post',
-            url: 'http://localhost:3000',
-            data: {
-                file: files[0]
-                }
-        });
     }
 
     clickMe(){
