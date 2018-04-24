@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import {ImageOverlay, Map, TileLayer} from 'react-leaflet'
+import {ImageOverlay, Map, TileLayer} from 'react-leaflet';
 import Control from 'react-leaflet-control';
-import Dropdown from 'react-dropdown'
-import 'react-dropdown/style.css'
-import $ from 'jquery'
+import Dropdown from 'react-dropdown';
+import axios from 'axios';
+import 'react-dropdown/style.css';
+import $ from 'jquery';
 
 const dali = {
   bounds: [[32, -130], [13, -100]],
@@ -51,9 +52,9 @@ class SimpleMap extends Component {
   }
 
   clickMe(){
-    for(var i = 0; i < this.state.indoorMaps.images.length; i++){
-      console.log(this.state.indoorMaps.images[i].className);
-    }
+    axios.get("/api/hello").then(function(response){
+      console.log(response);
+    });
   }
 
   componentDidMount(){
