@@ -51,9 +51,32 @@ class SimpleMap extends Component {
   }
 
   clickMe(){
-    for(var i = 0; i < this.state.indoorMaps.images.length; i++){
-      console.log(this.state.indoorMaps.images[i].className);
-    }
+    // for(var i = 0; i < this.state.indoorMaps.images.length; i++){
+    //   console.log(this.state.indoorMaps.images[i].className);
+    // }
+    var apiBaseUrl = "http://findmyway.ece.iastate.edu/api/";
+    console.log("saving " + this.state.indoorMaps.images.className);
+    //To be done:check for empty values before hitting submit
+    // var self = this;
+    // var payload = {
+    //   "bounds": this.state.indoorMaps.images.bounds,
+    //   "url": this.state.indoorMaps.images.url,
+    //   "image_name": this.state.indoorMaps.images.className,
+    //   "rotation": this.state.indoorMaps.images.rotation
+    // }
+    axios.post(apiBaseUrl + '/images', {
+      topic: 'images',
+      logs: indoorMaps, // look ma, no JSON.stringify()!
+    })
+      .then(function (response) {
+        console.log(response);
+        if (response.data.code == 200) {
+          //  console.log("saving images");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   componentDidMount(){
