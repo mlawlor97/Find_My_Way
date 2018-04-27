@@ -6,7 +6,7 @@ class Help extends Component {
             <div>
 
                 Omae Wa Mou Shindeiru
-   
+
             </div>
         );
     }

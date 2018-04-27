@@ -6,29 +6,21 @@ import axios from 'axios';
 import 'react-dropdown/style.css';
 import $ from 'jquery';
 
-const dali = {
-  bounds: [[32, -130], [13, -100]],
-  url: "http://www.moma.org/media/W1siZiIsIjM4NjQ3MCJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDIwMDB4MjAwMFx1MDAzZSJdXQ.jpg?sha=f6522ef85554762b",
-  className: "dali",
-  rotation: 0,
-}
-
-const pablo = {
-  bounds: [[0, 0], [20, 20]],
-  url: "https://static01.nyt.com/images/2018/03/02/arts/design/02picasso-print/01picasso1-blog427.jpg",
-  className: "pablo",
-  rotation: 0,
-}
-
 const indoorMaps = {
-  images: [dali, pablo]
+  images: []
 }
 
 class SimpleMap extends Component {
   constructor(props){
     super(props);
 
-    // Do loading of map images here!
+    var floorplans = {images: []};
+
+    axios.get("/api/test").then(function(res) {
+
+    });
+
+
 
     this.onZoomEnd = this.onZoomEnd.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
@@ -42,7 +34,7 @@ class SimpleMap extends Component {
     this.clickMe = this.clickMe.bind(this);
 
     this.state = {
-      indoorMaps: indoorMaps,
+      indoorMaps: floorplans,
       rotate: 0,
       TLCorner: true,
       BRCorner: false,
@@ -52,11 +44,8 @@ class SimpleMap extends Component {
   }
 
   clickMe(){
-    axios.post("/api/maps", {
-      userId: '123'
-    }).then(function(response){
-      console.log(response);
-    });
+    var floorplans = this.state.indoorMaps;
+
   }
 
   componentDidMount(){
@@ -183,7 +172,7 @@ class SimpleMap extends Component {
                 <div>EDIT OPTIONS</div><br/>
                 <input type="checkbox" name="editmode" onChange={this.onEditModeChange} checked={this.state.editMode} /> Edit Mode <br />
                 {editOptions}
-                <button onClick={this.clickMe}>CLICK ME</button>
+                <button onClick={this.clickMe}>SAVE STATE</button>
 
 
                 </div>

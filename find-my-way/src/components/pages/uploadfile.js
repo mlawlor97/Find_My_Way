@@ -5,7 +5,7 @@ import axios from 'axios';
 class UploadFile extends React.Component {
     constructor() {
         super()
-        this.state = { files: [] }
+        this.state = { files: [], activeFile: "" }
         this.clickMe = this.clickMe.bind(this);
     }
 
@@ -13,20 +13,39 @@ class UploadFile extends React.Component {
         this.setState({
             files
         });
+
+        this.setState({activeFile: files[0].name})
         //TODO configure to correct server and files
+        console.log(files)
     }
 
     clickMe(){
-      console.log(this.state.files[0]);
       var reader = new FileReader();
 
       reader.addEventListener("load", function(){
-        console.log(reader.result);
-        localStorage.setItem("newImage", reader.result);
-        console.log(localStorage.getItem("newImage"));
+        var newImageURL = reader.result;
+        // axios call
+        var floorplansStringed = "";
+        var floorplans = JSON.parse(floorplansStringed);
+        var length;
+        if(!floorplans.images){
+          length = 0;
+          floorplans = {images: []};
+        } else {
+          length = floorplans.images.length;
+        }
+        var newFloorplan = {
+          bounds: [[10, 10], [-10, -10]],
+          url: newImageURL,
+          className: "floorplan" + length,
+          rotation: 0,
+        }
+        floorplans.images.push(newFloorplan);
+        // axios call
       }, false);
 
       reader.readAsDataURL(this.state.files[0]);
+      this.setState({activeFile: ""});
     }
 
     render() {
@@ -38,19 +57,11 @@ class UploadFile extends React.Component {
                     </Dropzone>
                 </div>
                 <aside>
-                    <h2>Dropped files</h2>
-                    <ul>
-                        {
-                            this.state.files.map(f => <li key={f.name}>{f.name} - {f.size} bytes
-                            <img src={f.preview}/>
-
-
-
-                            </li>)
-                        }
-                    </ul>
+                    <h2>Dropped file</h2>
                 </aside>
-                <button onClick={this.clickMe}>CLICK ME</button>
+                {this.state.activeFile}
+
+                <div> <button onClick={this.clickMe}>Upload</button> </div>
             </section>
         );
     }
