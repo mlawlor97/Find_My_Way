@@ -18,13 +18,13 @@ class Login extends Component {
     }
 
     handleClick(event) {
-        var apiBaseUrl = "http://10.36.16.143:3000/api";
+        var apiBaseUrl = "http://findmyway.ece.iastate.edu:5050/api/login";
         var self = this;
         var payload = {
             "email": this.state.username,
             "password": this.state.password
         }
-        axios.post(apiBaseUrl + '/login', payload)
+        axios.post(apiBaseUrl, payload)
             .then(function (response) {
                 console.log("Here " + response);
                 if (response.data.code == 200) {

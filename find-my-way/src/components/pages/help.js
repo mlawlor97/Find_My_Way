@@ -5,7 +5,7 @@ class Help extends Component {
         return (
             <div>
 
-                Omae Wa Mou Shindeiru
+                You can reach out to the webmaster at mlawlor@iastate.edu
 
             </div>
         );
