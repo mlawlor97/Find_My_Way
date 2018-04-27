@@ -16,9 +16,20 @@ class SimpleMap extends Component {
 
     var floorplans = {images: []};
 
-    axios.get("/api/test").then(function(res) {
+    this.state = {
+      indoorMaps: floorplans,
+      rotate: 0,
+      TLCorner: true,
+      BRCorner: false,
+      editMode: false,
+      activeImage: 0,
+    };
 
-    });
+    var userData = {email: 'dsbis@iastate.edu'};
+    axios.post('http://findmyway.ece.iastate.edu:5050/api/getFloorplans', email).then(function (response){
+      var floorplans = response.data;
+      this.setState({indoorMaps: floorplans});
+    }.bind(this));
 
 
 
@@ -32,15 +43,6 @@ class SimpleMap extends Component {
     this.onEditModeChange = this.onEditModeChange.bind(this);
     this.onActiveFloorplanChange = this.onActiveFloorplanChange.bind(this);
     this.clickMe = this.clickMe.bind(this);
-
-    this.state = {
-      indoorMaps: floorplans,
-      rotate: 0,
-      TLCorner: true,
-      BRCorner: false,
-      editMode: false,
-      activeImage: 0
-    };
   }
 
   clickMe(){

@@ -1,11 +1,14 @@
 const express = require('express');
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded());
 const port = process.env.PORT || 5050;
 
 var floorplans = {images: []};
 
 var mysql = require('mysql');
+
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -20,23 +23,32 @@ connection.connect(function (err) {
   }
 });
 
-app.post('/api/maps', (req, res) => {
-  console.log(req.route);
-  var car = {type: 'a good one', model: 'T', color: 'red'};
-  res.send(car);
-});
-
 app.get('/api/test', (req, res) => {
-  res.send({message: 'hey buddy'});
+  res.send({message: 'You''ve found they way!'});
 });
 
-app.get('/api/floorplans', (req, res) => {
-  res.send(floorplans);
+app.post('/api/getFloorplans', (req, res) => {
+  var user = {
+    email: req.body.email,
+  };
+
+  connection.query(""){
+      // TODO
+  }
 });
 
-app.post('/api/floorplans', (req, res) => {
-  console.log(req);
+app.post('/api/updateFloorplans', (req, res) => {
+  var toUpdate = {
+    email: req.body.email,
+    floorplans: req.body.floorplans,
+  };
+
+  connection.query(""){
+    // TODO
+  });
 });
+
+
 
 app.post('/api/register', (req, res) => {
   var today = new Date();
@@ -50,13 +62,11 @@ app.post('/api/register', (req, res) => {
   }
   connection.query('INSERT INTO users SET ?', users, function (error, results, fields) {
     if (error) {
-      console.log("error ocurred", error);
       res.send({
         "code": 400,
         "failed": "error ocurred"
       })
     } else {
-      console.log('The solution is: ', results);
       res.send({
         "code": 200,
         "success": "user registered sucessfully"
@@ -70,15 +80,13 @@ app.post('/api/login', (req, res) => {
   var password = req.body.password;
   connection.query('SELECT * FROM users WHERE email = ?', [email], function (error, results, fields) {
     if (error) {
-      // console.log("error ocurred",error);
       res.send({
         "code": 400,
         "failed": "error ocurred"
       })
     } else {
-      // console.log('The solution is: ', results);
       if (results.length > 0) {
-        if ([0].password == password) {
+        if (results[0].password == password) {
           res.send({
             "code": 200,
             "success": "login sucessfull"

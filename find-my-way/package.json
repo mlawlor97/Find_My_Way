@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
-  "proxy": "http://findmyway.ece.iastate.edu:5050/",
   "dependencies": {
     "async": "^2.6.0",
     "auto-bind-decorator": "^1.0.6",

@@ -15,8 +15,6 @@ class UploadFile extends React.Component {
         });
 
         this.setState({activeFile: files[0].name})
-        //TODO configure to correct server and files
-        console.log(files)
     }
 
     clickMe(){
@@ -24,7 +22,10 @@ class UploadFile extends React.Component {
 
       reader.addEventListener("load", function(){
         var newImageURL = reader.result;
-        // axios call
+        var userData ={email: "dsbis@iastate.edu"};
+        axios.post('http://findmyway.ece.iastate.edu:5050/api/getFloorplans', userData).then(function(response){
+            
+        });
         var floorplansStringed = "";
         var floorplans = JSON.parse(floorplansStringed);
         var length;
