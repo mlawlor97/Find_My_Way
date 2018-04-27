@@ -4,7 +4,10 @@ class Homepage extends Component {
 
 
     render() {
-
+      var email = localStorage.getItem('activeEmail');
+      if(email == null){
+        localStorage.setItem('activeEmail', 'guest');
+      }
 
         return (
             <div>

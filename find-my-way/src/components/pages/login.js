@@ -12,8 +12,9 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
-            password: ''
+            email: '',
+            password: '',
+            successful: ''
         }
     }
 
@@ -21,30 +22,24 @@ class Login extends Component {
         var apiBaseUrl = "http://findmyway.ece.iastate.edu:5050/api/login";
         var self = this;
         var payload = {
-            "email": this.state.username,
-            "password": this.state.password
+            "email": this.state.email,
+            "password": this.state.password,
         }
         axios.post(apiBaseUrl, payload)
             .then(function (response) {
-                console.log("Here " + response);
+                console.log(response.data);
                 if (response.data.code == 200) {
                     console.log("Login successfull");
-                    var uploadScreen = [];
-                    uploadScreen.push(<UploadScreen appContext={self.props.appContext} />)
-                    self.props.appContext.setState({ loginPage: [], uploadScreen: uploadScreen })
+                    localStorage.setItem('activeEmail', this.state.email);
+                    this.setState({successful: 'Currently logged in as: ' + this.state.email});
                 }
                 else if (response.data.code == 204) {
                     alert("username password do not match")
                 }
                 else {
-                    // console.log("Username does not exists");
-                    // alert("Username does not exist");
-                    console.log("Login successfull");
-                    var uploadScreen = [];
-                    uploadScreen.push(<UploadScreen appContext={self.props.appContext} />)
-                    self.props.appContext.setState({ loginPage: [], uploadScreen: uploadScreen })
+                    alert("unknown error");
                 }
-            })
+            }.bind(this))
             .catch(function (error) {
                 console.log(error);
             });
@@ -56,10 +51,11 @@ class Login extends Component {
             <div>
                 <MuiThemeProvider>
                     <div>
+                        <div>{this.state.successful}</div>
                         <TextField
-                            hintText="Enter your Username"
-                            floatingLabelText="Username"
-                            onChange={(event, newValue) => this.setState({ username: newValue })}
+                            hintText="Enter your Email"
+                            floatingLabelText="Email"
+                            onChange={(event, newValue) => this.setState({ email: newValue })}
                         />
                         <br />
                         <TextField

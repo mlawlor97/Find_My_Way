@@ -24,7 +24,7 @@ class UploadFile extends React.Component {
         var newImageURL = reader.result;
         var userData ={email: "dsbis@iastate.edu"};
         axios.post('http://findmyway.ece.iastate.edu:5050/api/getFloorplans', userData).then(function(response){
-            
+
         });
         var floorplansStringed = "";
         var floorplans = JSON.parse(floorplansStringed);

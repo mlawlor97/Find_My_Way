@@ -11,7 +11,6 @@ class Header extends Component {
                 <div className="logo">
                 <Link to="/">Find My Way</Link>
                 </div>
-
                 <nav>
                     <ul>
                         <li className="first">
