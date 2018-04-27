@@ -45,8 +45,6 @@ app.post('/api/updateFloorplans', (req, res) => {
 
   connection.query("Insert into Images values ('"+toUpdate.email"', '" + toUpdate.floorplans + "')"){
     // TODO
-	INSERT INTO table_name
-VALUES (value1, value2, value3, ...);
   });
 });
 
