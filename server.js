@@ -32,8 +32,8 @@ app.post('/api/getFloorplans', (req, res) => {
     email: req.body.email,
   };
 
-  connection.query(""){
-      // TODO
+  connection.query("SELECT jsonData FROM Images WHERE email='"+user.email+"'"){
+
   }
 });
 
@@ -43,8 +43,10 @@ app.post('/api/updateFloorplans', (req, res) => {
     floorplans: req.body.floorplans,
   };
 
-  connection.query(""){
+  connection.query("Insert into Images values ('"+toUpdate.email"', '" + toUpdate.floorplans + "')"){
     // TODO
+	INSERT INTO table_name
+VALUES (value1, value2, value3, ...);
   });
 });
 
