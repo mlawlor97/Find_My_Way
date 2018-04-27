@@ -26,7 +26,7 @@ class SimpleMap extends Component {
     };
 
     var userData = {email: 'dsbis@iastate.edu'};
-    axios.post('http://findmyway.ece.iastate.edu:5050/api/getFloorplans', email).then(function (response){
+    axios.post('http://findmyway.ece.iastate.edu:5050/api/getFloorplans', userData).then(function (response){
       var floorplans = response.data;
       this.setState({indoorMaps: floorplans});
     }.bind(this));
@@ -42,12 +42,16 @@ class SimpleMap extends Component {
     this.onBRCornerChange = this.onBRCornerChange.bind(this);
     this.onEditModeChange = this.onEditModeChange.bind(this);
     this.onActiveFloorplanChange = this.onActiveFloorplanChange.bind(this);
-    this.clickMe = this.clickMe.bind(this);
+    this.saveMaps = this.saveMaps.bind(this);
   }
 
-  clickMe(){
+  saveMaps(){
     var floorplans = this.state.indoorMaps;
-
+    var data = {email: 'dsbis@iastate.edu', floorplans: floorplans};
+    axios.post('http://findmyway.ece.iastate.edu:5050/api/getFloorplans', data).then(function (response){
+      var floorplans = response.data;
+      this.setState({indoorMaps: floorplans});
+    }.bind(this));
   }
 
   componentDidMount(){
@@ -174,7 +178,7 @@ class SimpleMap extends Component {
                 <div>EDIT OPTIONS</div><br/>
                 <input type="checkbox" name="editmode" onChange={this.onEditModeChange} checked={this.state.editMode} /> Edit Mode <br />
                 {editOptions}
-                <button onClick={this.clickMe}>SAVE STATE</button>
+                <button onClick={this.saveMaps}>SAVE STATE</button>
 
 
                 </div>
