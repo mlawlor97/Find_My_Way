@@ -51,10 +51,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CameraControl.cs" />
-     <Compile Include="Assets\flipActive.cs" />
-     <Compile Include="Assets\GenerateSchematics.cs" />
-     <Compile Include="Assets\TestCompass.cs" />
+     <Compile Include="Assets\Scripts\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\flipActive.cs" />
+     <Compile Include="Assets\Scripts\GenerateSchematics.cs" />
+     <Compile Include="Assets\Scripts\TestCompass.cs" />
+     <None Include="Assets\Atanasoff.txt" />
      <None Include="Assets\test_schematic.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
