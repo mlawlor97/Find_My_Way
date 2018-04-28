@@ -25,9 +25,13 @@ class SimpleMap extends Component {
       activeImage: 0,
     };
 
-    var userData = {email: 'dsbis@iastate.edu'};
+    var email = 'se329@iastate.edu';
+    if(localStorage.getItem('activeEmail') != 'se329@iastate.edu'){
+      email = localStorage.getItem('activeEmail')
+    }
+    var userData = {email: email}
     axios.post('http://findmyway.ece.iastate.edu:5050/api/getFloorplans', userData).then(function (response){
-      var floorplans = response.data;
+      var floorplans = JSON.parse(response.data.success);
       this.setState({indoorMaps: floorplans});
     }.bind(this));
 
@@ -47,10 +51,14 @@ class SimpleMap extends Component {
 
   saveMaps(){
     var floorplans = this.state.indoorMaps;
-    var data = {email: 'dsbis@iastate.edu', floorplans: floorplans};
-    axios.post('http://findmyway.ece.iastate.edu:5050/api/getFloorplans', data).then(function (response){
-      var floorplans = response.data;
-      this.setState({indoorMaps: floorplans});
+    var email = 'se329@iastate.edu';
+    if(localStorage.getItem('activeEmail') != 'se329@iastate.edu'){
+      email = localStorage.getItem('activeEmail')
+    }
+    var data = {email: email, floorplans: JSON.stringify(floorplans)};
+    axios.post('http://findmyway.ece.iastate.edu:5050/api/updateFloorplans', data).then(function (response){
+      var code = response.data.code;
+      console.log(code);
     }.bind(this));
   }
 

@@ -22,27 +22,34 @@ class UploadFile extends React.Component {
 
       reader.addEventListener("load", function(){
         var newImageURL = reader.result;
-        var userData ={email: "dsbis@iastate.edu"};
-        axios.post('http://findmyway.ece.iastate.edu:5050/api/getFloorplans', userData).then(function(response){
+        var email = 'se329@iastate.edu';
+        if(localStorage.getItem('activeEmail') != 'se329@iastate.edu'){
+          email = localStorage.getItem('activeEmail')
+        }
+        var userData ={email: email};
+        axios.post('http://findmyway.ece.iastate.edu:5050/api/getFloorplans', userData)
+            .then(function(response){
+            var currentFloorplans = JSON.parse(response.data.success);
+            var length = currentFloorplans.images.length;
+            var newFloorplan = {
+              bounds: [[10, 10], [-10, -10]],
+              url: newImageURL,
+              className: "floorplan" + length,
+              rotation: 0,
+            };
+            currentFloorplans.images.push(newFloorplan);
 
+
+            var toUpdate = {
+              email: email,
+              floorplans: JSON.stringify(currentFloorplans),
+            }
+
+            axios.post('http://findmyway.ece.iastate.edu:5050/api/updateFloorplans', toUpdate).then(function(response){
+              var code = response.data.code;
+              console.log(code);
+            });
         });
-        var floorplansStringed = "";
-        var floorplans = JSON.parse(floorplansStringed);
-        var length;
-        if(!floorplans.images){
-          length = 0;
-          floorplans = {images: []};
-        } else {
-          length = floorplans.images.length;
-        }
-        var newFloorplan = {
-          bounds: [[10, 10], [-10, -10]],
-          url: newImageURL,
-          className: "floorplan" + length,
-          rotation: 0,
-        }
-        floorplans.images.push(newFloorplan);
-        // axios call
       }, false);
 
       reader.readAsDataURL(this.state.files[0]);
