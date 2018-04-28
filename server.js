@@ -1,8 +1,9 @@
 const express = require('express');
+var bodyParser = require('body-parser');
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 const port = process.env.PORT || 5050;
 
 var floorplans = {images: []};
@@ -24,17 +25,29 @@ connection.connect(function (err) {
 });
 
 app.get('/api/test', (req, res) => {
-  res.send({message: 'You''ve found they way!'});
+  res.send({message: 'You have found they way!'});
 });
 
 app.post('/api/getFloorplans', (req, res) => {
   var user = {
     email: req.body.email,
   };
-
-  connection.query("SELECT jsonData FROM Images WHERE email='"+user.email+"'"){
-
-  }
+console.log(user.email);
+  connection.query("SELECT jsonData FROM Images WHERE email='"+user.email+"'", function(error, results, fields){
+    if(error){
+      res.send({
+        "code": 400,
+        "failed": "error ocurred"
+      });
+    } else {
+      console.log(results[0].jsonData);
+      console.log("GETTING");
+      res.send({
+        "code": 200,
+        "success": results[0].jsonData,
+      });
+    }
+  })
 });
 
 app.post('/api/updateFloorplans', (req, res) => {
@@ -43,9 +56,23 @@ app.post('/api/updateFloorplans', (req, res) => {
     floorplans: req.body.floorplans,
   };
 
-  connection.query("Insert into Images values ('"+toUpdate.email"', '" + toUpdate.floorplans + "')"){
-    // TODO
-  });
+  connection.query("UPDATE Images SET jsonData='"+ toUpdate.floorplans +"' WHERE email='" + toUpdate.email + "'", function(error, results, fields){
+    if(error){
+      console.log("FAILED UPDATE");
+      res.send({
+        "code": 400,
+        "failed": "error ocurred"
+      });
+    } else {
+      console.log(toUpdate.floorplans);
+      console.log(toUpdate.email);
+      console.log("SUCCESSFUL UPDATE");
+      res.send({
+        "code": 200,
+        "success": "Images updated correctly"
+      });
+    }
+  })
 });
 
 
@@ -62,17 +89,26 @@ app.post('/api/register', (req, res) => {
   }
   connection.query('INSERT INTO users SET ?', users, function (error, results, fields) {
     if (error) {
-      res.send({
-        "code": 400,
-        "failed": "error ocurred"
-      })
+      console.log("Insert Users Failure");
     } else {
-      res.send({
-        "code": 200,
-        "success": "user registered sucessfully"
-      });
+      console.log("Insert Users Success");
     }
   });
+
+  imageData = {
+    "email": users.email,
+    "jsonData": JSON.stringify({images: []}),
+  }
+
+  connection.query('INSERT INTO Images SET ?', imageData, function (error, results, fields) {
+    if (error) {
+      console.log("Insert IMAGES Failure");
+    } else {
+      console.log("Insert IMAGES Success");
+    }
+  });
+
+
 });
 
 app.post('/api/login', (req, res) => {
