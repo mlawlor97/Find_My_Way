@@ -4,7 +4,7 @@
   "description": "Find My Way is a program that allows users the ability to view a building's layout in order to find the route to their destination.",
   "main": "server.js",
   "dependencies": {
-    "async": "^2.6.0",
+    "async": "^2.6.4",
     "body-parser": "^1.18.2",
     "express": "^4.14.1",
     "multer": "^1.3.0",
